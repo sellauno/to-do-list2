@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { addItem } from './redux/modules/todos';
 import React, { useId } from 'react'
+import Router from "./shared/Router";
+import { Link } from "react-router-dom";
 
 const ContainerToDoItem = styled.div`
 width: 270px;
