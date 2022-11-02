@@ -13,7 +13,7 @@ border-radius: 12px;
 padding: 12px 24px 24px;
 `;
 
-const DeleteButton= styled.button`
+const DeleteButton = styled.button`
 width: 60px;
 height: 25px;
 margin: 5px;
@@ -40,11 +40,22 @@ const ToDoItem = ({ task }) => {
       <p>{task.body}</p>
       <DeleteButton>Delete</DeleteButton>
       <DoneButton>Done</DoneButton>
-      </ContainerToDoItem>
+    </ContainerToDoItem>
   );
 };
 
-const ContainerToDoList= styled.div`
+const ToDoItemDone = ({ task }) => {
+  return (
+    <ContainerToDoItem key={task.id}>
+      <h3>{task.title}</h3>
+      <p>{task.body}</p>
+      <DeleteButton>Delete</DeleteButton>
+      <DoneButton>Cancel</DoneButton>
+    </ContainerToDoItem>
+  );
+};
+
+const ContainerToDoList = styled.div`
 display: flex;
 flex-direction: row;
 gap: 16px;
@@ -54,8 +65,19 @@ const ToDoList = () => {
   const toDos = useSelector(state => state.toDos.items);
   return (
     <ContainerToDoList>
-      {toDos.map(task => {
+      {toDos.filter(task => task.isDone === false).map(task => {
         return <ToDoItem task={task} />
+      })}
+    </ContainerToDoList>
+  );
+};
+
+const ToDoListDone = () => {
+  const toDos = useSelector(state => state.toDos.items);
+  return (
+    <ContainerToDoList>
+      {toDos.filter(task => task.isDone === true).map(task => {
+        return <ToDoItemDone task={task} />
       })}
     </ContainerToDoList>
   );
@@ -104,8 +126,9 @@ const ToDoForm = () => {
     if (!title) return alert("Please fill title field");
     if (!body) return alert("Please fill body field");
     setToDo([...toDo, { id: useId, title: title, body: body, isDone: isDone }]);
-    console.log(toDo);
     dispatch(addItem(toDo));
+    setTitle('');
+    setBody('');
   }
   return (
     <ContainerToDoForm>
@@ -122,7 +145,7 @@ const ToDoForm = () => {
   );
 };
 
-const ContainerApp= styled.div`
+const ContainerApp = styled.div`
 margin: 10px;
 `;
 
@@ -134,6 +157,7 @@ const App = () => {
       <h1>Working</h1>
       <ToDoList />
       <h1>Done</h1>
+      <ToDoListDone />
     </ContainerApp>
   );
 };

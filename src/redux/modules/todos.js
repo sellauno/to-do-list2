@@ -9,7 +9,7 @@ const initialState = {
 		id: 2, // all id must be unique.
 		title: "eat lunch",
 		body: "what should I eat..?",
-		isDone: false
+		isDone: true
 	}],
 }
 
